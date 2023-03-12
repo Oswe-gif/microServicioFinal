@@ -1,5 +1,6 @@
 package com.example.ordermicroservice.logic;
 import com.example.ordermicroservice.controller.dto.CustomerDTO;
+import com.example.ordermicroservice.controller.dto.OrderDTO;
 import com.example.ordermicroservice.controller.dto.ProductDTO;
 import com.example.ordermicroservice.controller.dto.SellerDTO;
 import lombok.AllArgsConstructor;
@@ -50,4 +51,33 @@ public class OrderService {
     {
         return restTemplate.getForObject("http://localhost:8083/api/product/"+id,Optional.class);
     }
+
+
+    public boolean getExistingCustomer(String id)
+    {
+        Optional<CustomerDTO> customerDTO=this.getCustomer(id);
+        return customerDTO.isPresent();
+    }
+    public boolean getExistingSeller(String id)
+    {
+        Optional<SellerDTO> sellerDTO=this.getSeller(id);
+        return sellerDTO.isPresent();
+    }
+    public boolean getExistingProduct(String id)
+    {
+        Optional<ProductDTO> productDTO=this.getProduct(id);
+        return productDTO.isPresent();
+    }
+    public String createOrder(OrderDTO orderDTO)
+    {
+        if (getExistingCustomer(orderDTO.getCustomerId())&&getExistingSeller(orderDTO.getSellerId())&&getExistingProduct(orderDTO.getProductId())){
+            return "A order was created. customer information:"+getCustomer(orderDTO.getCustomerId()).toString()
+                    +". Order information: "+getProduct(orderDTO.getProductId()).toString()
+                    +". Seller information: "+getSeller(orderDTO.getSellerId()).toString();
+        }
+        else {
+            return "Failed to create order";
+        }
+    }
+
 }
