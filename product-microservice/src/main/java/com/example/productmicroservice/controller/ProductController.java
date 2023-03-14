@@ -4,7 +4,6 @@ import com.example.productmicroservice.controller.dto.ProductDTO;
 import com.example.productmicroservice.logic.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
